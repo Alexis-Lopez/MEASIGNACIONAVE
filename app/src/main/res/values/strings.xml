@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">MAAVE</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="username">Correo o Nombre de Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="signin">Iniciar Sesion</string>
+    <string name="donthaveAccount">¡ No tienes cuenta </string>
+    <string name="createhere">CREA UNA AQUI !</string>
+    <string name="name">Nombre</string>
+    <string name="last_name">Apellidos</string>
+    <string name="numControl">Numero de Control</string>
+    <string name="nameTeacher">Nombre del Maestro</string>
+    <string name="correo">Correo Electronico</string>
+    <string name="confPassword">Confirmar Contraseña</string>
+    <string name="createAccount">Crear Cuenta</string>
+    <string name="document">Documentacion</string>
+    <string name="method">Metodo AVE</string>
+    <string name="test">Examenes</string>
+    <string name="sessions">Lecciones</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tvsessione">Lecciones</string>
+    <string name="edtAge">Edad</string>
+    <string name="next">Siguiente</string>
+    <string name="QuestionTv">Preguntas</string>
+    <string name="numero">#Num</string>
+    <string name="textingresar">Ingresar la cantidad total de Bodegas y Fabricas </string>
+    <string name="filas">Bodegas</string>
+    <string name="columns">Fabricas</string>
+    <string name="tvcanColum">Columna</string>
+</resources>

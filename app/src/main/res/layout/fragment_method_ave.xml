@@ -1,0 +1,84 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ave.www.maave.Fracment.MethodAveFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/textingresar"
+            android:textAlignment="center"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtfilas"
+                android:inputType="number"
+                android:hint="@string/filas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtColumns"
+                android:inputType="number"
+                android:hint="@string/columns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            >
+            <TextView
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximizar"
+                android:textSize="18dp"/>
+            <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximizar"
+                android:textSize="18dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/idcontinuar"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:text="continuar"
+            android:textColor="#FFF"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

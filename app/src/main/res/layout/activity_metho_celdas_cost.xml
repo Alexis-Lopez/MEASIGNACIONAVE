@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ave.www.maave.MethoCeldasCostActivity">
+
+    <include layout="@layout/actionbar"/>
+
+    <TextView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:text="DEMANDAS"
+        android:textStyle="bold"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/c_fracm_celdascost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"/>
+    <TextView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="20dp"
+        android:textSize="20dp"
+        android:layout_marginTop="60dp"
+        android:textAlignment="center"
+        android:text="OFERTA"
+        android:textStyle="bold"
+        android:layout_height="match_parent" />
+
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>
