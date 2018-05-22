@@ -26,7 +26,7 @@
     <string name="QuestionTv">Preguntas</string>
     <string name="numero">#Num</string>
     <string name="textingresar">Ingresar la cantidad total de Bodegas y Fabricas </string>
-    <string name="filas">Bodegas</string>
-    <string name="columns">Fabricas</string>
+    <string name="filas">DEMANDAS</string>
+    <string name="columns">OFERTAS</string>
     <string name="tvcanColum">Columna</string>
 </resources>

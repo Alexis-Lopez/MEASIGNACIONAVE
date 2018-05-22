@@ -8,32 +8,12 @@
 
     <include layout="@layout/actionbar"/>
 
-    <TextView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_width="match_parent"
-        android:textSize="20dp"
-        android:layout_marginTop="5dp"
-        android:textAlignment="center"
-        android:text="DEMANDAS"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
-
     <FrameLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/fracm_asignationmethod"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
         />
-    <TextView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_width="20dp"
-        android:textSize="20dp"
-        android:layout_marginTop="60dp"
-        android:textAlignment="center"
-        android:text="OFERTA"
-        android:textStyle="bold"
-        android:layout_height="match_parent" />
+
 
 </android.support.design.widget.CoordinatorLayout>

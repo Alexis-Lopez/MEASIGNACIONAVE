@@ -29,9 +29,17 @@ public class CantColumFilasActivity extends AppCompatActivity {
         Fabricas = bundle.getInt("my_key_fabricas");
 
         //Fabricas = bundle.getString("my_key_fabricas");
+        showToolbar("OFERTAS y DEMANDAS",true);
 
         CantColumFragment leccionesFragment = new CantColumFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.con_canNumber,createCustom()).commit();
+    }
+
+    public void showToolbar(String Titulo,boolean upBotton){
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(Titulo);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(upBotton);
     }
 
     private Fragment createCustom(){

@@ -35,10 +35,19 @@ public class MainMethodAVEActivity extends AppCompatActivity {
         Fabricas = bundle.getInt("Can_Fabricas");
         Bodegas = bundle.getInt("Can_Bodegas");
 
+        showToolbar("Asignacion AVE",true);
+
 
         AsignacionMethodAveFragment asignacionMethodAveFragment = new AsignacionMethodAveFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fracm_asignationmethod,myCustomInfo()).commit();
 
+    }
+
+    public void showToolbar(String Titulo,boolean upBotton){
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(Titulo);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(upBotton);
     }
 
 

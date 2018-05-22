@@ -22,7 +22,7 @@ import retrofit2.http.POST;
 
 public class ConnectServices {
 
-    private static final String URL_BASE = "http://192.168.0.9:3000/";
+    private static final String URL_BASE = "http://192.168.0.36:3000/";
 
     private static ConnectWS   connectWS;
 

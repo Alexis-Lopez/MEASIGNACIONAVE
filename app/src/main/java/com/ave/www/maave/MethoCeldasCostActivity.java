@@ -23,9 +23,17 @@ public class MethoCeldasCostActivity extends AppCompatActivity {
         Matriz = bundle.getIntArray("my_matriz");
         Bodegas = bundle.getInt("my_bodega_cant");
         Fabricas = bundle.getInt("my_fabrica_cant");
+        showToolbar("COSTO UNITARIO" , true);
 
         CellCostFragment leccionesFragment = new CellCostFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.c_fracm_celdascost,myCustomMatriz()).commit();
+    }
+
+    public void showToolbar(String Titulo,boolean upBotton){
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(Titulo);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(upBotton);
     }
 
     private Fragment myCustomMatriz(){

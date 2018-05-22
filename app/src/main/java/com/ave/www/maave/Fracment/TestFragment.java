@@ -49,15 +49,7 @@ public class TestFragment extends Fragment {
 
     public ArrayList<mdTest> builDescription(){
         ArrayList<mdTest> sessions = new ArrayList<>();
-        sessions.add(new mdTest("Examen 1"));
-        sessions.add(new mdTest("Examen 2"));
-        sessions.add(new mdTest("Examen 3"));
-        sessions.add(new mdTest("Examen 4"));
-        sessions.add(new mdTest("Examen 5"));
-        sessions.add(new mdTest("Examen 6"));
-        sessions.add(new mdTest("Examen 7"));
-        sessions.add(new mdTest("Examen 8"));
-        sessions.add(new mdTest("Examen 9"));
+        sessions.add(new mdTest("Cultura general"));
 
         return sessions;
     }

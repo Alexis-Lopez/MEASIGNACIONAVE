@@ -129,7 +129,7 @@ public class CantColumFragment extends Fragment {
 
         ArrayList<mClassNumro> numeros = new ArrayList<>();
         for (int i = 0 ; i <  fabricas; i ++ ){
-            numeros.add(new mClassNumro("OFERTA" + (i +1) ));
+            numeros.add(new mClassNumro("OFERTA " + (i +1) ));
         }
         for (int x = 0; x < bodegas ; x++){
             numeros.add(new mClassNumro("DEMANDA " + ( x + 1)));

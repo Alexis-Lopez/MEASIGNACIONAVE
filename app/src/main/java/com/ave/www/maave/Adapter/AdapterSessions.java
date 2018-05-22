@@ -26,6 +26,7 @@ public class AdapterSessions extends RecyclerView.Adapter<AdapterSessions.CardSe
     private int resources;
     private Activity activity;
 
+
     public AdapterSessions(ArrayList<mdSession> sessions, int resources, Activity activity) {
         this.sessions = sessions;
         this.resources = resources;
@@ -40,7 +41,7 @@ public class AdapterSessions extends RecyclerView.Adapter<AdapterSessions.CardSe
     }
 
     @Override
-    public void onBindViewHolder(CardSession holder, int position) {
+    public void onBindViewHolder(CardSession holder, final int position) {
         mdSession session = sessions.get(position);
         holder.textView.setText(session.getDescription());
 
@@ -48,6 +49,7 @@ public class AdapterSessions extends RecyclerView.Adapter<AdapterSessions.CardSe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, DetailsSessionActivity.class);
+                intent.putExtra("key_session_id",position);
                 activity.startActivity(intent);
             }
         });
