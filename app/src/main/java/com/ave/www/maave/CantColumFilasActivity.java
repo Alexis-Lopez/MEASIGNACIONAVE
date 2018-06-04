@@ -17,9 +17,11 @@ public class CantColumFilasActivity extends AppCompatActivity {
 
     public static final String MY_KEY_CANFILAS = "CUSTOM_KEY";
     public static final String MY_KEY_CANFABRICAS = "CUSTOM_KEY_2";
+    public static final String MY_KEY_BAN_MINorMAX = "CUSTOM_KEY_3";
 
     int Bodegas  =  0;
     int Fabricas = 0;
+    boolean bandera = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,7 @@ public class CantColumFilasActivity extends AppCompatActivity {
         Bundle bundle  = getIntent().getExtras();
         Bodegas = bundle.getInt("my_key_bodegas");
         Fabricas = bundle.getInt("my_key_fabricas");
+        bandera  = bundle.getBoolean("my_key_Action_MinorMax");
 
         //Fabricas = bundle.getString("my_key_fabricas");
         showToolbar("OFERTAS y DEMANDAS",true);
@@ -46,6 +49,8 @@ public class CantColumFilasActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt(MY_KEY_CANFILAS , Bodegas);
         bundle.putInt(MY_KEY_CANFABRICAS,Fabricas);
+        bundle.putBoolean(MY_KEY_BAN_MINorMAX,bandera);
+
 
         CantColumFragment cantColumFragment = new CantColumFragment();
         cantColumFragment.setArguments(bundle);

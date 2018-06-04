@@ -14,6 +14,9 @@ public class MainMethodAVEActivity extends AppCompatActivity {
     public static final String MY_OFERTAS_DEMANDAS = "CUSTOM_OFERTAS_DEMANDAS";
     public static final String MY_CANTIDAD_BODEGAS = "CUSTOM_CANTIDAD_BODEGAS";
     public static final String MY_CANTIDAD_FABRICAS = "CUSTOM_CANTIDAD_FARICAS";
+    public static final String MY_BAN_MAX_OR_MIN = "CUSTOM_FIT_FARICAS";
+    public static final String MY_BAN_FIC_OFERT = "CUSTOM_DEma_FARICAS";
+    public static final String MY_BAN_FIC_DEMAN = "CUSTOM_MAorMi_FARICAS";
 
     int Fabricas;
     int Bodegas;
@@ -21,6 +24,7 @@ public class MainMethodAVEActivity extends AppCompatActivity {
     int ArregloDemandasyOfertas [];
     private static int numero =  1;
     private static int numeroCost = 0;
+    boolean banMaxorMin, banFicOFet,banFicDeman;
 
 
     @Override
@@ -34,6 +38,10 @@ public class MainMethodAVEActivity extends AppCompatActivity {
         ArregloDemandasyOfertas = bundle.getIntArray("Arreglo Matriz");
         Fabricas = bundle.getInt("Can_Fabricas");
         Bodegas = bundle.getInt("Can_Bodegas");
+        banMaxorMin = bundle.getBoolean("BanMaxorMin");
+        banFicOFet = bundle.getBoolean("banFicOfert");
+        banFicDeman = bundle.getBoolean("banFicDeman");
+
 
         showToolbar("Asignacion AVE",true);
 
@@ -57,6 +65,9 @@ public class MainMethodAVEActivity extends AppCompatActivity {
         bundle.putInt(MY_CANTIDAD_BODEGAS,Bodegas);
         bundle.putInt(MY_CANTIDAD_FABRICAS,Fabricas);
         bundle.putIntArray(MY_OFERTAS_DEMANDAS,ArregloDemandasyOfertas);
+        bundle.putBoolean(MY_BAN_MAX_OR_MIN,banMaxorMin);
+        bundle.putBoolean(MY_BAN_FIC_OFERT,banFicOFet);
+        bundle.putBoolean(MY_BAN_FIC_DEMAN,banFicDeman);
 
         AsignacionMethodAveFragment methodAveFragment =  new AsignacionMethodAveFragment();
         methodAveFragment.setArguments(bundle);

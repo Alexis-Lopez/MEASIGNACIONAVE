@@ -28,6 +28,9 @@ import java.util.List;
 
 
 import static android.content.ContentValues.TAG;
+import static com.ave.www.maave.MainMethodAVEActivity.MY_BAN_FIC_DEMAN;
+import static com.ave.www.maave.MainMethodAVEActivity.MY_BAN_FIC_OFERT;
+import static com.ave.www.maave.MainMethodAVEActivity.MY_BAN_MAX_OR_MIN;
 import static com.ave.www.maave.MainMethodAVEActivity.MY_CANTIDAD_BODEGAS;
 import static com.ave.www.maave.MainMethodAVEActivity.MY_CANTIDAD_FABRICAS;
 import static com.ave.www.maave.MainMethodAVEActivity.MY_MATRIZCOMPLETA;
@@ -58,6 +61,7 @@ public class AsignacionMethodAveFragment extends Fragment {
     private static boolean bandera = true;
     int position;
     int initvalor;
+    private boolean banMinorMax,banFicOfet,banFicDeman;
 
     ArrayList<mClaseAsignacionAve> ARREGLOINFO;
 
@@ -77,6 +81,11 @@ public class AsignacionMethodAveFragment extends Fragment {
         Bodega = bundle.getInt(MY_CANTIDAD_BODEGAS);
         OfertasyDemandas = bundle.getIntArray(MY_OFERTAS_DEMANDAS);
         MatrizCompleta = bundle.getIntArray(MY_MATRIZCOMPLETA);
+        banMinorMax = bundle.getBoolean(MY_BAN_MAX_OR_MIN);
+        banFicOfet = bundle.getBoolean(MY_BAN_FIC_OFERT);
+        banFicDeman = bundle.getBoolean(MY_BAN_FIC_DEMAN);
+
+
 
 
         //Informacion del Recipiente que esta en espera del contenido
@@ -156,16 +165,16 @@ public class AsignacionMethodAveFragment extends Fragment {
                 }
             }
             else if((((Bodega + 2) * (numDemyOfer+1) )-1) == x && x != (((Fabricas + 2) * (Bodega + 2)) -1) ){
-              mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer -1]),"","","#84FFFF"));
+              mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer-1]),"","","#F4F0FF"));
                 numDemyOfer++;
             }
             else if (x > (((Fabricas + 2 ) * (Bodega+1)) -1)){
                 if(x != (((Fabricas + 2)  * (Bodega + 2))-1)){
-                mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer-1]),"","","#84FFFF"));
+                mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer]),"","","#84FFFF"));
                 numDemyOfer++;
                 }
                 else{
-                    mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer -1]),String.valueOf(OfertasyDemandas[numDemyOfer]),"","#b5cccc"));
+                    mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer+1]),String.valueOf(OfertasyDemandas[numDemyOfer+1]),"","#b5cccc"));
                 }
             }
             else {
@@ -178,7 +187,14 @@ public class AsignacionMethodAveFragment extends Fragment {
     }
 
     public void  AsignacionAve(){
-
+        if (banFicDeman ){
+            numPot = 0;
+        }else if(banFicOfet){
+            numPot = 2;
+        }
+        else{
+            numPot = 1;
+        }
             int punterox = ((Fabricas + 2) * (Bodega +1 ) + numPot);
             int numeroDiferencia;
         for (int x = 0 ; x < Bodega  ; x ++){

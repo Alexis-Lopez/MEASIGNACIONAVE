@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                    Intent intent =  new Intent(getBaseContext(),DashboardActivity.class);
                    startActivity(intent);
 
-               /*}
+            /*   }
                else{
                    Toast.makeText(getBaseContext(),"El usuario o la contrase;a esta equivocda",Toast.LENGTH_SHORT).show();
                }

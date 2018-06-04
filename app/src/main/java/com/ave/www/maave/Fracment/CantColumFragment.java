@@ -22,6 +22,7 @@ import com.ave.www.maave.R;
 
 import java.util.ArrayList;
 
+import static com.ave.www.maave.CantColumFilasActivity.MY_KEY_BAN_MINorMAX;
 import static com.ave.www.maave.CantColumFilasActivity.MY_KEY_CANFABRICAS;
 import static com.ave.www.maave.CantColumFilasActivity.MY_KEY_CANFILAS;
 
@@ -33,11 +34,14 @@ public class CantColumFragment extends Fragment {
 
     int  bodegas = 0;
     int fabricas = 0;
+    boolean bandera ;
     String [] txtEscritos;
     private static int contadorOfertas = 0;
     private static int contadorDemandas = 0;
     private static boolean banderaParaVacios = false;
     private static int cantidaDif = 0 ;
+    static boolean banderaOfertasFiticia = false;
+    static boolean banderaDemandaFiticia = false;
 
     public CantColumFragment() {
         // Required empty public constructor
@@ -54,6 +58,7 @@ public class CantColumFragment extends Fragment {
         Bundle bundle = getArguments();
         bodegas =  bundle.getInt(MY_KEY_CANFILAS);
         fabricas = bundle.getInt(MY_KEY_CANFABRICAS);
+        bandera = bundle.getBoolean(MY_KEY_BAN_MINorMAX);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rvcanColumns);
 
@@ -80,10 +85,12 @@ public class CantColumFragment extends Fragment {
 
                 for (int i = 0 ; i < ((bodegas + fabricas)); i++){
                     if (txtEscritos[i].toString().length() != 0) {
-                        Matriz[i] = Integer.parseInt(txtEscritos[i].toString());
+
                         if (i < fabricas ){
                             contadorOfertas = contadorOfertas + Integer.parseInt(txtEscritos[i].toString());
+                            Matriz[i] = Integer.parseInt(txtEscritos[i].toString());
                         }else{
+                            Matriz[i + 1] = Integer.parseInt(txtEscritos[i].toString());
                             contadorDemandas = contadorDemandas + Integer.parseInt(txtEscritos[i].toString());
                         }
 
@@ -95,32 +102,45 @@ public class CantColumFragment extends Fragment {
 
                 if (banderaParaVacios != true){
                     //Si las ofertas y  demandas son iguales se sigue la asignacion
+                    Intent intent = new Intent(getActivity(), MethoCeldasCostActivity.class);
+                    intent.putExtra("my_banMaxiorMin",bandera);
+                    Matriz[bodegas + fabricas + 2 ] = contadorDemandas;
+                    Matriz[bodegas + fabricas +  3] = contadorOfertas;
                     if (contadorOfertas == contadorDemandas){
-                        Matriz[bodegas + fabricas ] = contadorDemandas;
-                        Matriz[bodegas + fabricas + 1] = contadorOfertas;
-                        Intent intent = new Intent(getActivity(), MethoCeldasCostActivity.class);
                         intent.putExtra("my_matriz",Matriz);
                         intent.putExtra("my_bodega_cant",bodegas);
                         intent.putExtra("my_fabrica_cant",fabricas);
                         startActivity(intent);
-
                     }else if (contadorDemandas > contadorOfertas){
                         //Si la demanda es mayor que la oferta se agrega una oferta ficticia
                         cantidaDif = contadorDemandas - contadorOfertas;
-                        Matriz[bodegas + fabricas + 3] = cantidaDif;
+                        Matriz[fabricas] = cantidaDif;
                         fabricas = fabricas + 1;
+                        banderaOfertasFiticia  = true;
+                        banderaDemandaFiticia = false;
                     }
                     else{
                         //Si la oferta es mayor que la demanda se agrega una demanda ficticia
-
                         cantidaDif = contadorOfertas - contadorDemandas;
-                        Matriz[bodegas + fabricas + 2] = cantidaDif;
+                        Matriz[bodegas + fabricas + 1 ] = cantidaDif;
                         bodegas = bodegas + 1;
+                        banderaDemandaFiticia = true;
+                        banderaOfertasFiticia = false;
+
                     }
+
+                    intent.putExtra("my_matriz",Matriz);
+                    intent.putExtra("my_bodega_cant",bodegas);
+                    intent.putExtra("my_fabrica_cant",fabricas);
+                    intent.putExtra("mybandOfe_Ficticia",banderaOfertasFiticia);
+                    intent.putExtra("mybanDem_Fict",banderaDemandaFiticia);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(getActivity(),"No dejar campos de Demanda o Ofertas Vacio " ,Toast.LENGTH_SHORT).show();
                 }
+
+
 
             }});
     }
