@@ -116,12 +116,12 @@ public class AsignacionMethodAveFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //sacarMenor();
-                if(bandera){
+
                 AsignacionAve();
                 adapter.refresevent(ARREGLOINFO);
-                    bandera = false;
-                }
-                else{
+                  //  bandera = false;
+
+
                     // Use the Builder class for convenient dialog construction
                     new AlertDialog.Builder(getActivity()).setTitle("Exit").setMessage("").setNegativeButton("No",null)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -130,8 +130,6 @@ public class AsignacionMethodAveFragment extends Fragment {
 
                         }
                     }).create().show();
-
-                }
             }
         });
     }
@@ -170,7 +168,11 @@ public class AsignacionMethodAveFragment extends Fragment {
             }
             else if (x > (((Fabricas + 2 ) * (Bodega+1)) -1)){
                 if(x != (((Fabricas + 2)  * (Bodega + 2))-1)){
-                mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer]),"","","#84FFFF"));
+                    if (banFicOfet){
+                        mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer-1]),"","","#84FFFF"));
+                    }else{
+                        mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer]),"","","#84FFFF"));
+                    }
                 numDemyOfer++;
                 }
                 else{
@@ -183,7 +185,6 @@ public class AsignacionMethodAveFragment extends Fragment {
             }
         }
         return mclase;
-
     }
 
     public void  AsignacionAve(){
