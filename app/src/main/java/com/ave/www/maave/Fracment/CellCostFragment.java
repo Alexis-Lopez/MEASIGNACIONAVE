@@ -43,7 +43,7 @@ public class CellCostFragment extends Fragment {
     String txtDataSet [];
     private int numeroPosicion = 1;
     private int numpara = 0;
-    private boolean banCamVacios = false;
+    private int banCamVacios = 0;
     private boolean banMinorMax,banFicOfet,banFicDeman;
 
 
@@ -100,15 +100,15 @@ public class CellCostFragment extends Fragment {
 
 
                 for (int x = 0; x < txtDataSet.length; x++) {
-                    if(txtDataSet[x].toString().length() != 0 ){
+                    if(txtDataSet[x] != null ){
                             Matriz[x] = Integer.parseInt(txtDataSet[x].toString());
                     }
                     else{
-                        banCamVacios = true;
+                        banCamVacios = 1;
                     }
                 }
 
-                if (banCamVacios != true){
+                if (banCamVacios != 1){
                     llenarmatrizcompleta();
                     Intent intent = new Intent(getActivity(), MainMethodAVEActivity.class);
                     intent.putExtra("Matriz_Cost_Uni",MatrizCompleta);
@@ -121,7 +121,8 @@ public class CellCostFragment extends Fragment {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getActivity(),"Agregar valor unitario difente de 0 " ,Toast.LENGTH_SHORT).show();
+                    banCamVacios = 0;
+                    Toast.makeText(getActivity(),"Agregar valor unitario a las celdas vacias " ,Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -150,6 +151,7 @@ public class CellCostFragment extends Fragment {
             }
             else{
                 MatrizCompleta = Matriz;
+                break;
             }
         }
     }

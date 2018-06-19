@@ -45,11 +45,13 @@ public class AsignacionMethodAveFragment extends Fragment {
     private static Adapter_Asignacion_Method_Ave adapter;
     private static ArrayList<mClaseAsignacionAve> mclase;
     private static  ArrayList<mClaseAsignacionAve> mclaseAsi;
+    private Button btninformation;
     RecyclerView recyclerView;
     int MatrizCompleta[];
     int menorData[];
     int menorPos[];
     int OfertasyDemandas [];
+    int [] postionAsignados;
     int Bodega;
     int Fabricas;
     int numDemyOfer = 1;
@@ -58,11 +60,18 @@ public class AsignacionMethodAveFragment extends Fragment {
     int numCul = 1;
     int numRen = 1;
     int numBodega = 3;
+    int numAsignados = 0,numAsignadosRenglon;
     private static boolean bandera = true;
     int position;
     int initvalor;
     private boolean banMinorMax,banFicOfet,banFicDeman;
-
+    int nummatriz;
+    int  numeropostmayorRenglon = 0;
+    static int valorZ = 0;
+    int acumuladorZeta = 0 ;
+    String acumuladorTextZeta = "";
+    boolean banderaDatos = true;
+    int [] numerosRenglones;
     ArrayList<mClaseAsignacionAve> ARREGLOINFO;
 
     public AsignacionMethodAveFragment() {
@@ -77,6 +86,7 @@ public class AsignacionMethodAveFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_asignacion_method_ave, container, false);
         //Informacion mandada por la normatica llave - Valor
         Bundle bundle = getArguments();
+        bandera = true;
         Fabricas = bundle.getInt(MY_CANTIDAD_FABRICAS);
         Bodega = bundle.getInt(MY_CANTIDAD_BODEGAS);
         OfertasyDemandas = bundle.getIntArray(MY_OFERTAS_DEMANDAS);
@@ -85,7 +95,13 @@ public class AsignacionMethodAveFragment extends Fragment {
         banFicOfet = bundle.getBoolean(MY_BAN_FIC_OFERT);
         banFicDeman = bundle.getBoolean(MY_BAN_FIC_DEMAN);
 
-
+        if(Fabricas > Bodega){
+            nummatriz = Fabricas - Bodega;
+        }else if(Bodega > Fabricas){
+            nummatriz = Bodega - Fabricas;
+        }else{
+            nummatriz = 0;
+        }
 
 
         //Informacion del Recipiente que esta en espera del contenido
@@ -100,11 +116,29 @@ public class AsignacionMethodAveFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         refresh(view);
+        information(view);
 
         return view;
 
 
     }
+    public void information(final View view){
+        Button btninfort = (Button) view.findViewById(R.id.btnInformation);
+        btninfort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity()).setTitle("El valor de zeta "  + acumuladorZeta).setMessage("La sumatoria de z es = " + acumuladorTextZeta).setNegativeButton("No",null)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //  OptimizacionMODI();
+                            }
+                        }).create().show();
+            }
+        });
+    }
+
+
 
     public void refresh(final View view){
 
@@ -116,20 +150,28 @@ public class AsignacionMethodAveFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //sacarMenor();
-
+                    if (bandera){
                 AsignacionAve();
+                numAsignacionRenglon();
+                cantidaddeZ();
+                        bandera = false;
                 adapter.refresevent(ARREGLOINFO);
-                  //  bandera = false;
+
+
+
+                    }else{
 
 
                     // Use the Builder class for convenient dialog construction
-                    new AlertDialog.Builder(getActivity()).setTitle("Exit").setMessage("").setNegativeButton("No",null)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(getActivity()).setTitle("Desea optimizar la asignacion" + numeropostmayorRenglon).setMessage("La optimizacion MODI").setNegativeButton("No",null)
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                           OptimizacionMODI();
+                            adapter.refresevent(ARREGLOINFO);
                         }
                     }).create().show();
+                    }
             }
         });
     }
@@ -144,6 +186,7 @@ public class AsignacionMethodAveFragment extends Fragment {
          mclase = new ArrayList<>();
 
         for (int x = 0 ; x < ((Fabricas + 2)  * (Bodega + 2) ); x++){
+            //Primeras Columnas
             if(x < (Bodega + 2)){
                     if (x == 0){
                         mclase.add(new mClaseAsignacionAve("","","C/D","#64B5F6"));
@@ -154,6 +197,7 @@ public class AsignacionMethodAveFragment extends Fragment {
                         numCul++;
                     }
             }
+            //PAra los renglones
             else if(((Bodega + 2) * numRen) == x ){
                 if(((Bodega + 2 ) * (Fabricas+1)) == x){
                     mclase.add(new mClaseAsignacionAve("","","DEM" , "#64B5F6"));
@@ -162,11 +206,13 @@ public class AsignacionMethodAveFragment extends Fragment {
                     numRen++;
                 }
             }
+            //Para las ofertas
             else if((((Bodega + 2) * (numDemyOfer+1) )-1) == x && x != (((Fabricas + 2) * (Bodega + 2)) -1) ){
               mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer-1]),"","","#F4F0FF"));
                 numDemyOfer++;
             }
-            else if (x > (((Fabricas + 2 ) * (Bodega+1)) -1)){
+            else if (banFicOfet && x > (((Fabricas + 2 ) * (Bodega+1)) -1)){
+
                 if(x != (((Fabricas + 2)  * (Bodega + 2))-1)){
                     if (banFicOfet){
                         mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer-1]),"","","#84FFFF"));
@@ -175,10 +221,27 @@ public class AsignacionMethodAveFragment extends Fragment {
                     }
                 numDemyOfer++;
                 }
+                //Para el ultimo valor
                 else{
                     mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer+1]),String.valueOf(OfertasyDemandas[numDemyOfer+1]),"","#b5cccc"));
                 }
             }
+            else if (x >= (((Fabricas + 2 ) * (Bodega+1)) -1)){
+
+                if(x != (((Fabricas + 2)  * (Bodega + 2))-1)){
+                    if (banFicOfet){
+                        mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer-1]),"","","#84FFFF"));
+                    }else{
+                        mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer]),"","","#84FFFF"));
+                    }
+                    numDemyOfer++;
+                }
+                //Para el ultimo valor
+                else{
+                    mclase.add(new mClaseAsignacionAve(String.valueOf(OfertasyDemandas[numDemyOfer+1]),String.valueOf(OfertasyDemandas[numDemyOfer+1]),"","#b5cccc"));
+                }
+            }
+            //Para las columnas normales
             else {
             mclase.add(new mClaseAsignacionAve("",String.valueOf(MatrizCompleta[numCostUni]),"","#b5cccc"));
                 numCostUni++;
@@ -188,15 +251,19 @@ public class AsignacionMethodAveFragment extends Fragment {
     }
 
     public void  AsignacionAve(){
+        int punterox;
         if (banFicDeman ){
             numPot = 0;
+            punterox = ((((Fabricas + 2) * (Bodega +1 )) ) + numPot);
         }else if(banFicOfet){
             numPot = 2;
+            punterox = ((((Fabricas + 2) * (Bodega +1 )) ) + numPot);
         }
         else{
             numPot = 1;
+            punterox = ((((Fabricas + 2) * (Bodega +1 )) - nummatriz) + numPot);
         }
-            int punterox = ((Fabricas + 2) * (Bodega +1 ) + numPot);
+
             int numeroDiferencia;
         for (int x = 0 ; x < Bodega  ; x ++){
             numRen =0;
@@ -215,7 +282,7 @@ public class AsignacionMethodAveFragment extends Fragment {
                         ARREGLOINFO.get((menorPos[numRen] + (Bodega - x))).setNumeroAsignar("0");
                         //Lo que le queda de manda se le manda con la resta anterior realizada
                         ARREGLOINFO.get(punterox).setNumeroAsignar(String.valueOf(numeroDiferencia));
-
+                        numAsignados++;
                     }
                     else{
                         numeroDiferencia = Integer.parseInt(ARREGLOINFO.get(( menorPos[numRen] + (Bodega - x))).getNumeroAsignar()) - Integer.parseInt(ARREGLOINFO.get(punterox).getNumeroAsignar());
@@ -223,6 +290,7 @@ public class AsignacionMethodAveFragment extends Fragment {
                         ARREGLOINFO.get(menorPos[numRen]).setColor("#FFFFFF");
                         ARREGLOINFO.get(punterox).setNumeroAsignar("0");
                         ARREGLOINFO.get(menorPos[numRen] + Bodega -x).setNumeroAsignar(String.valueOf(numeroDiferencia));
+                        numAsignados++;
                     }
                 }
                 numRen++;
@@ -258,6 +326,105 @@ public class AsignacionMethodAveFragment extends Fragment {
         }
 
         //Toast.makeText(getActivity(),"Posiciones " + menorPos[0] + menorPos[1]+ menorPos[2],Toast.LENGTH_LONG).show();
+    }
+
+    public void OptimizacionMODI(){
+
+
+        int reg1 = (Fabricas + Bodega) - 1;
+        int numcolumnaopt = 0;
+        int posinit = 0;
+        int asigpost = 0;
+        int post = 0;
+        int postanterior = 0;
+        int difernecia= 0 ;
+        if (reg1 >= numAsignados){
+            int postsupuestarenglon = (numeropostmayorRenglon+1) * (Bodega + 2);
+            ARREGLOINFO.get(postsupuestarenglon).setNumeroAsignar("0");
+            for (int x = 0 ; x < Bodega ; x ++ ){
+                numcolumnaopt = 0 ;
+                    numcolumnaopt = -1 * Integer.parseInt(ARREGLOINFO.get(postsupuestarenglon + (x + 1)).getCostUnitario());
+                    ARREGLOINFO.get(x +1).setNumeroAsignar(String.valueOf(numcolumnaopt));
+            }
+
+            for (int y  = 0 ; y < Fabricas ; y ++){
+                for (int p = 0  ; p < numerosRenglones[y];p++ ){
+                    post = (y +1) * (Bodega + 2);
+                    numcolumnaopt = 0;
+                     if (ARREGLOINFO.get(postionAsignados[asigpost] - post).getNumeroAsignar().length() != 0 && ARREGLOINFO.get(post).getNumeroAsignar().length() == 0){
+                        numcolumnaopt =   (-1* Integer.parseInt(ARREGLOINFO.get(postionAsignados[asigpost] - post).getNumeroAsignar())) + (-1 * Integer.parseInt(ARREGLOINFO.get(postionAsignados[asigpost]).getCostUnitario()));
+                        ARREGLOINFO.get(post).setNumeroAsignar(String.valueOf(numcolumnaopt));
+                     }
+
+                    asigpost++;
+                }
+            }
+
+            posinit = Bodega + 3;
+            int valor = 0;
+            for (int x = 0 ; x < Fabricas; x++){
+                for(int y = 0 ; y < Bodega ; y ++ ){
+                    if(ARREGLOINFO.get(posinit).getNumeroAsignar().length() == 0 ){
+                                        //Valor de C , Vallor de R  + Valor del Costo unitario
+                        valor  =  Integer.parseInt(ARREGLOINFO.get(y+1).getNumeroAsignar())+ Integer.parseInt(ARREGLOINFO.get((Bodega + 2) *(x+1)).getNumeroAsignar()) + Integer.parseInt(ARREGLOINFO.get(posinit).getCostUnitario());
+                        ARREGLOINFO.get(posinit).setNumeroAsignar(String.valueOf(valor));
+
+                    }
+                    posinit++;
+                }
+
+                posinit = posinit + 2;
+            }
+
+        }else {
+            //Agregar cerosnumeropostmayorRenglon
+        }
+
+    }
+
+    public void agregarCero(){
+
+    }
+
+    public void numAsignacionRenglon(){
+        int posinit = Bodega + 3;
+        numerosRenglones  =  new int [Fabricas];
+        int numeroRenglon = 0;
+        postionAsignados = new int [numAsignados];
+        int numeropost = 0;
+        int numeromayor = 0;
+
+        for (int x = 0 ; x < Fabricas; x++){
+            for(int y = 0 ; y < Bodega ; y ++ ){
+                if(ARREGLOINFO.get(posinit).getNumeroAsignar().length() != 0 ){
+                    numeroRenglon++;
+                    postionAsignados[numeropost] = posinit;
+                    numeropost++;
+                }
+                posinit++;
+            }
+            numerosRenglones[x] = numeroRenglon;
+            numeroRenglon = 0;
+            posinit = posinit + 2;
+        }
+
+        for (int p = 0 ; p < Fabricas-1 ; p++){
+            if (numerosRenglones[numeromayor] < numerosRenglones[p + 1 ]){
+                numeropostmayorRenglon = p +1;
+            }
+        }
+    }
+
+    public void cantidaddeZ(){
+
+        acumuladorZeta =0;
+        acumuladorTextZeta ="";
+        for (int x = 0 ; x < numAsignados ; x ++ ){
+            if (x != 0){
+            acumuladorTextZeta = acumuladorTextZeta + " + ";}
+            acumuladorZeta = acumuladorZeta + Integer.parseInt( ARREGLOINFO.get(postionAsignados[x]).getNumeroAsignar()) * Integer.parseInt( ARREGLOINFO.get(postionAsignados[x]).getCostUnitario());
+            acumuladorTextZeta = acumuladorTextZeta + " " + ARREGLOINFO.get(postionAsignados[x]).getNumeroAsignar() + " * " + ARREGLOINFO.get(postionAsignados[x]).getCostUnitario();
+        }
     }
 
 

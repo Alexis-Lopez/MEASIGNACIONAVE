@@ -13,6 +13,8 @@
         android:orientation="vertical"
         android:weightSum="1">
         <Button
+            android:text="El valor de Z!"
+            android:id="@+id/btnInformation"
             android:background="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="40dp"

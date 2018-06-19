@@ -1,6 +1,7 @@
 package com.ave.www.maave.Fracment;
 
 
+import android.accessibilityservice.GestureDescription;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,10 +36,10 @@ public class CantColumFragment extends Fragment {
     int  bodegas = 0;
     int fabricas = 0;
     boolean bandera ;
-    String [] txtEscritos;
+    public static String [] txtEscritos;
     private static int contadorOfertas = 0;
     private static int contadorDemandas = 0;
-    private static boolean banderaParaVacios = false;
+    private  int  banderaParaVacios = 0;
     private static int cantidaDif = 0 ;
     static boolean banderaOfertasFiticia = false;
     static boolean banderaDemandaFiticia = false;
@@ -46,8 +47,6 @@ public class CantColumFragment extends Fragment {
     public CantColumFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +69,7 @@ public class CantColumFragment extends Fragment {
         AdapterFilasNumber adapter = new AdapterFilasNumber(buildQuestions(),R.layout.item_columsvsfilas,getActivity());
         txtEscritos = adapter.getTxtEscritos();
         recyclerView.setAdapter(adapter);
+        banderaOfertasFiticia = false;
         onCell(view);
 
         return view;
@@ -77,6 +77,8 @@ public class CantColumFragment extends Fragment {
     }
 
     public void onCell(View view){
+
+
         final int [] Matriz  = new int[(bodegas + fabricas) + 4];
         FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.fabcellcant);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +86,7 @@ public class CantColumFragment extends Fragment {
             public void onClick(View v) {
 
                 for (int i = 0 ; i < ((bodegas + fabricas)); i++){
-                    if (txtEscritos[i].toString().length() != 0) {
+                    if (txtEscritos[i] != null){
 
                         if (i < fabricas ){
                             contadorOfertas = contadorOfertas + Integer.parseInt(txtEscritos[i].toString());
@@ -96,11 +98,11 @@ public class CantColumFragment extends Fragment {
 
                     }
                     else {
-                        banderaParaVacios = true;
+                        banderaParaVacios = 1;
                     }
                 }
 
-                if (banderaParaVacios != true){
+                if (banderaParaVacios != 1){
                     //Si las ofertas y  demandas son iguales se sigue la asignacion
                     Intent intent = new Intent(getActivity(), MethoCeldasCostActivity.class);
                     intent.putExtra("my_banMaxiorMin",bandera);
@@ -138,10 +140,8 @@ public class CantColumFragment extends Fragment {
                 }
                 else{
                     Toast.makeText(getActivity(),"No dejar campos de Demanda o Ofertas Vacio " ,Toast.LENGTH_SHORT).show();
+                    banderaParaVacios = 0;
                 }
-
-
-
             }});
     }
 

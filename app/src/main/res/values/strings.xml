@@ -29,4 +29,5 @@
     <string name="filas">DEMANDAS</string>
     <string name="columns">OFERTAS</string>
     <string name="tvcanColum">Columna</string>
+    <string name="grafit">Graficas</string>
 </resources>

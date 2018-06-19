@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void goDashBoard(final View view){
 
-       /* TextInputEditText edtEmail = (TextInputEditText) findViewById(R.id.username);
+        /*TextInputEditText edtEmail = (TextInputEditText) findViewById(R.id.username);
         TextInputEditText editText  = (TextInputEditText) findViewById(R.id.password);
 
         String User , Pass;
@@ -54,10 +54,10 @@ public class LoginActivity extends AppCompatActivity {
                            response.body().getAuthentication(),
                            response.body().getRol()
                    );*/
-                   Intent intent =  new Intent(getBaseContext(),DashboardActivity.class);
+                   Intent intent =  new Intent(getBaseContext(),DashboardTeaActivity.class);
                    startActivity(intent);
 
-            /*   }
+               /*}
                else{
                    Toast.makeText(getBaseContext(),"El usuario o la contrase;a esta equivocda",Toast.LENGTH_SHORT).show();
                }
