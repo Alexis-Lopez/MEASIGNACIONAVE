@@ -11,7 +11,7 @@ public class mdDetailsQuestion {
     private String Respues2;
     private String Respues3;
 
-    public mdDetailsQuestion(String question, String respues1, String respues2, String respues3) {
+    public mdDetailsQuestion(String question, String respues1, String respues2 ,String respues3) {
         this.question = question;
         Respues1 = respues1;
         Respues2 = respues2;

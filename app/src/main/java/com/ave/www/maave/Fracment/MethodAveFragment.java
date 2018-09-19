@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.ave.www.maave.CantColumFilasActivity;
@@ -22,10 +24,12 @@ public class MethodAveFragment  extends Fragment {
 
     public static mClaseMethod miMethod;
     CantColumFragment cantColumFragment = new CantColumFragment();
-
+    public static boolean bandera = true;
 
     TextInputEditText edtBodegas;
     TextInputEditText edtFabricas;
+    Switch aSwitch;
+
      String Bodega = " " ,  Fabrica = " ";
     public MethodAveFragment() {
         // Required empty public constructor
@@ -36,6 +40,8 @@ public class MethodAveFragment  extends Fragment {
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_method_ave, container, false);
+
+
 
         onCell(view);
         // Inflate the layout for this fragment
@@ -53,10 +59,15 @@ public class MethodAveFragment  extends Fragment {
                 edtFabricas = getActivity().findViewById(R.id.txtColumns);
                 Bodega = edtBodegas.getText().toString();
                 Fabrica = edtFabricas.getText().toString().trim();
+                aSwitch = (Switch) getActivity().findViewById(R.id.sthAction);
+
+                bandera = aSwitch.isChecked();
                 Bundle bundle = new Bundle();
 
                 if(Bodega.equals("") || Fabrica.equals("")){
-                    Toast.makeText(getActivity(),"No dejas campos vacios Bodega  =  " + Bodega,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"No dejas campos vacios Bodega  =  " + String.valueOf(bandera) + Bodega,Toast.LENGTH_SHORT).show();
+
+
                 }
                 else {
                     int Bodegas = Integer.parseInt(edtBodegas.getText().toString().trim());
@@ -64,11 +75,15 @@ public class MethodAveFragment  extends Fragment {
                     Intent intent = new Intent(getActivity(), CantColumFilasActivity.class);
                     intent.putExtra("my_key_bodegas", Bodegas);
                     intent.putExtra("my_key_fabricas" , Fabricas);
+                    intent.putExtra("my_key_Action_MinorMax", bandera);
                    // intent.putExtra("my_key_fabricas",edtFabricas.getText().toString().trim());
                     startActivity(intent);
                 }
             }});
     }
+
+
+
 
 
 }

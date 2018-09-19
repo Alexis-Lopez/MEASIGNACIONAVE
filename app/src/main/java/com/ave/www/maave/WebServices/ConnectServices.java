@@ -1,6 +1,9 @@
 package com.ave.www.maave.WebServices;
 
+import com.ave.www.maave.Model.Lecciones;
 import com.ave.www.maave.Model.Usuario;
+import com.ave.www.maave.Model.mDocuments;
+import com.ave.www.maave.Model.mdTest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -22,7 +26,7 @@ import retrofit2.http.POST;
 
 public class ConnectServices {
 
-    private static final String URL_BASE = "http://192.168.0.9:3000/";
+    private static final String URL_BASE = "http://192.168.1.101:3000/";
 
     private static ConnectWS   connectWS;
 
@@ -73,6 +77,19 @@ public class ConnectServices {
 
         @POST("users/sign_in.json")
         Call<Usuario> login(@Body HttpRequestLogin requestLogIn);
+        //Para traer todas las lecciones
+        @GET("/sessions.json")
+        Call<Lecciones> getData();
+        //PAra traer todas los documentos de consultas
+        @GET("/consultations.json")
+        Call<mDocuments> getDocuments();
+        //Para traer todos los examenes
+        @GET("/quizzes.json")
+        Call<mdTest> getTest();
+        //Para mandar las calificaciones de los examenes;
+        @POST("quizes.json")
+         Call<mdTest> getDatass(@Body mdTest mdTest);
+
     }
 }
 

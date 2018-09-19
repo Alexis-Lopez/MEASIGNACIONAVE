@@ -3,6 +3,7 @@
     package="com.ave.www.maave">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,7 +28,8 @@
         <activity android:name=".Details.QuestionActivity" />
         <activity android:name=".MethoCeldasCostActivity" />
         <activity android:name=".CantColumFilasActivity" />
-        <activity android:name=".MainMethodAVEActivity"></activity>
+        <activity android:name=".MainMethodAVEActivity" />
+        <activity android:name=".DashboardTeaActivity"></activity>
     </application>
 
 </manifest>

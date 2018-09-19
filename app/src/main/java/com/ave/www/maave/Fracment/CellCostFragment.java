@@ -23,6 +23,9 @@ import com.ave.www.maave.R;
 
 import java.util.ArrayList;
 
+import static com.ave.www.maave.MethoCeldasCostActivity.MY_BANDERA_FICDEM;
+import static com.ave.www.maave.MethoCeldasCostActivity.MY_BANDERA_FICOFT;
+import static com.ave.www.maave.MethoCeldasCostActivity.MY_BANDERA_MIN_OR_MAX;
 import static com.ave.www.maave.MethoCeldasCostActivity.MY_BODEGASCAN_KEY;
 import static com.ave.www.maave.MethoCeldasCostActivity.MY_MATRIZ_KEY;
 import static com.ave.www.maave.MethoCeldasCostActivity.My_FABRICACAN_KEY;
@@ -36,10 +39,12 @@ public class CellCostFragment extends Fragment {
     int Bodegas = 0;
     int Fabricas = 0;
     int Matriz  [];
+    int MatrizCompleta [];
     String txtDataSet [];
     private int numeroPosicion = 1;
     private int numpara = 0;
-    private boolean banCamVacios = false;
+    private int banCamVacios = 0;
+    private boolean banMinorMax,banFicOfet,banFicDeman;
 
 
     public CellCostFragment() {
@@ -56,12 +61,29 @@ public class CellCostFragment extends Fragment {
         DDemyOfert = bundle.getIntArray(MY_MATRIZ_KEY);
         Bodegas = bundle.getInt(MY_BODEGASCAN_KEY);
         Fabricas = bundle.getInt(My_FABRICACAN_KEY);
-        Matriz = new int[(Bodegas) * (Fabricas)];
+        banMinorMax = bundle.getBoolean(MY_BANDERA_MIN_OR_MAX);
+        banFicOfet = bundle.getBoolean(MY_BANDERA_FICOFT);
+        banFicDeman = bundle.getBoolean(MY_BANDERA_FICDEM);
+        if(banFicOfet) {
+            Matriz = new int[(Bodegas) * (Fabricas - 1)];
+        }
+        else if(banFicDeman){
+            Matriz = new int[(Bodegas -1) * (Fabricas)];
+        }else {
+            Matriz = new int[(Bodegas) * (Fabricas)];
+        }
+        MatrizCompleta = new int[(Bodegas) * Fabricas];
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rvmethocell);
+        if (banFicDeman){
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(),Bodegas -1));
+        }else{
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),Bodegas));
+        }
         AdapterCellCost adapter = new AdapterCellCost(buildMethod(),R.layout.item_meth,getActivity());
         txtDataSet = adapter.getTxtDataset();
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),Bodegas));
+
+
         recyclerView.setAdapter(adapter);
 
         onCellViewCostUnitario(view);
@@ -78,28 +100,60 @@ public class CellCostFragment extends Fragment {
 
 
                 for (int x = 0; x < txtDataSet.length; x++) {
-                    if(txtDataSet[x].length() != 0 ){
+                    if(txtDataSet[x] != null ){
                             Matriz[x] = Integer.parseInt(txtDataSet[x].toString());
                     }
                     else{
-                        banCamVacios = true;
+                        banCamVacios = 1;
                     }
                 }
 
-                if (banCamVacios != true){
+                if (banCamVacios != 1){
+                    llenarmatrizcompleta();
                     Intent intent = new Intent(getActivity(), MainMethodAVEActivity.class);
-                    intent.putExtra("Matriz_Cost_Uni",Matriz);
+                    intent.putExtra("Matriz_Cost_Uni",MatrizCompleta);
                     intent.putExtra("Arreglo Matriz",DDemyOfert);
                     intent.putExtra("Can_Bodegas",Bodegas);
                     intent.putExtra("Can_Fabricas" , Fabricas);
+                    intent.putExtra("BanMaxorMin" , banMinorMax);
+                    intent.putExtra("banFicOfert",banFicOfet);
+                    intent.putExtra("banFicDeman",banFicDeman);
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getActivity(),"No dejar campos de Demanda o Ofertas Vacio " ,Toast.LENGTH_SHORT).show();
+                    banCamVacios = 0;
+                    Toast.makeText(getActivity(),"Agregar valor unitario a las celdas vacias " ,Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
+    }
+
+    public void llenarmatrizcompleta(){
+        int numero = 1;
+        int numeromatriz = 0;
+        for (int x = 0 ; x < (Bodegas * Fabricas);x++){
+            if(banFicDeman){
+                if (((Bodegas * numero)-1 == x)){
+                    MatrizCompleta[x] =  60;
+                    numero++;
+                }else{
+                    MatrizCompleta[x] = Matriz[numeromatriz];
+                    numeromatriz++;
+                }
+            }else if (banFicOfet){
+                if (x >= (Bodegas * (Fabricas -1)) ){
+                    MatrizCompleta[x] = 500;
+                }
+                else{
+                    MatrizCompleta[x] = Matriz[numeromatriz];
+                    numeromatriz++;
+                }
+            }
+            else{
+                MatrizCompleta = Matriz;
+                break;
+            }
+        }
     }
 
     public ArrayList<numerosCeldas> buildMethod(){

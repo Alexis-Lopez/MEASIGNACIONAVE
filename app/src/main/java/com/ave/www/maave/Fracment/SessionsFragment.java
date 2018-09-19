@@ -49,16 +49,9 @@ public class SessionsFragment extends Fragment {
 
     public ArrayList<mdSession> builDescription(){
         ArrayList<mdSession> sessions = new ArrayList<>();
-        sessions.add(new mdSession("Descripcion 1"));
-        sessions.add(new mdSession("Descripcion 2"));
-        sessions.add(new mdSession("Descripcion 3"));
-        sessions.add(new mdSession("Descripcion 4"));
-        sessions.add(new mdSession("Descripcion 5"));
-        sessions.add(new mdSession("Descripcion 6"));
-        sessions.add(new mdSession("Descripcion 7"));
-        sessions.add(new mdSession("Descripcion 8"));
-        sessions.add(new mdSession("Descripcion 9"));
-
+        sessions.add(new mdSession("Para mantener el tema se necesitan las bases"));
+        sessions.add(new mdSession("Pruebas para el serve"));
+        sessions.add(new mdSession("Pruebas del Server"));
         return sessions;
     }
 
