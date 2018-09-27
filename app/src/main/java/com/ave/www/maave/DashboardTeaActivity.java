@@ -55,6 +55,7 @@ public class DashboardTeaActivity extends AppCompatActivity {
                     showToolbar("Graficas del Alumno" , false);
                     GrafictFragment grafictFragment = new GrafictFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,grafictFragment).commit();
+                    return  true;
                 }
 
 
